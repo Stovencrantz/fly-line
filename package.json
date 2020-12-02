@@ -10,7 +10,7 @@
     "seed": "node scripts/seedDB.js",
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
-    "heroku-postbuild": "cd client && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && && cd client && npm run build"
   },
   "engines": {
     "node": "15.3.0"
