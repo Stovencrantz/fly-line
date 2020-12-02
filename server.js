@@ -23,11 +23,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './client/build'));
 })
 
-
-
-
-const connection = "mongodb+srv://stovencrantz:Copp3rloon!@cluster0.mwxbg.mongodb.net/users?retryWrites=true&w=majority";
-mongoose.connect(connection,
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/users",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
