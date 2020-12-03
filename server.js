@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const PORT = process.env.PORT || 5000;
 
 
@@ -12,8 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+app.use(morgan('tiny'));
+
 // API
-const users = require('./api/users');
+const users = require('./routes/usersRoutes');
 app.use(users);
 
 if (process.env.NODE_ENV === "production") {
