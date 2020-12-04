@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles, AppBar, Toolbar, Typography, Button, IconButton } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
-export default function Navbar() {
+export default function HeaderNav() {
     const useStyles = makeStyles((theme) => ({
 		root: {
 		  flexGrow: 1,
