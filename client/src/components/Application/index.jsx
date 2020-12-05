@@ -4,13 +4,14 @@ import SignIn from "../SignIn";
 import SignUp from "../SignUp";
 import ProfilePage from "../../pages/ProfilePage";
 import PasswordReset from "../PasswordReset";
-import UserContext from "../../providers/UserProvider";
+import UserContext from "../../context/userContext"
 
 export default function Application() {
 
-  const user = useContext(UserContext);
-  console.log("User: ", user)
-  return user ? (
+  const { userContext, setUserContext } = useContext(UserContext);
+  console.log("User: ", userContext)
+  
+  return userContext ? (
     <ProfilePage />
   ) : (
     <Router>

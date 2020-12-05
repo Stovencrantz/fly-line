@@ -13,8 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { UserContext } from "../../providers/UserProvider"
-import {auth} from "../../firebase";
-import * as firebase from "../../firebase";
+import {auth, signInWithGoogle, generateUserDocument} from "../../firebase";
 
 export default function SignUp() {
     function Copyright() {
@@ -56,23 +55,58 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(null);
-  const user = useContext(UserContext);
 
   const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
     event.preventDefault();
 
-    try{
-      const {user} = await auth.createUserWithEmailAndPasswordHandler(email, password);
-      firebase.generateUserDocument(user, {displayName});
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((result) => {
+      console.log("result of create user with email and password: ", result)
+      console.log("Display namne: ", displayName)
+      const user = auth.currentUser;
+      user.updateProfile({
+        displayName: displayName
+      })
+      .then(() => {
+        generateUserDocument(result)
+      })
+      .catch(error => console.log(error))
+    })
+    .catch((error) => {
+            // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (errorCode == 'auth/weak-password') {
+      alert('The password is too weak.');
+    } else {
+      alert(errorMessage);
     }
-    catch(error) {
-      setError('Error Signing up with email and password')
-    }
+    console.log(error);
+    })
+
+    // try{
+    //   const {user} = await auth.createUserWithEmailAndPassword(email, password)
+
+    //   generateUserDocument(user)
+    //   .then(result => console.log("You signed up as: ", result))
+
+    // }
+    // catch(error) {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   if (errorCode == 'auth/weak-password') {
+    //     alert('The password is too weak.');
+    //   } else {
+    //     alert(errorMessage);
+    //   }
+    //   console.log(error);
+    // };
 
     setEmail("");
     setPassword("");
     setDisplayName("");
-  };
+  }
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
@@ -83,6 +117,9 @@ export default function SignUp() {
     } else if (name === "displayName") {
       setDisplayName(value);
     }
+    console.log("Email: ", email);
+    console.log("password: ", password);
+    console.log("displayName: ", displayName);
   };
 
 
@@ -172,7 +209,7 @@ export default function SignUp() {
           variant="contained"
           color="secondary"
           className="MuiButton-fullWidth py-2 text-white"
-          onClick={() => firebase.signInWithGoogle()}
+          onClick={() => signInWithGoogle()}
         >
           Sign In with Google
         </Button>

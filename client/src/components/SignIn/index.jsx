@@ -12,8 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { signInWithGoogle } from "../../firebase";
-import {auth} from "../../firebase";
+import { auth, signInWithGoogle } from "../../firebase";
 
 export default function SignIn() {
   function Copyright() {
@@ -57,7 +56,11 @@ export default function SignIn() {
 
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).catch(error => {
+    auth.signInWithEmailAndPassword(email, password)
+    .then(user => {
+      console.log("Signed in with user: ", user)
+    })
+    .catch(error => {
       setError("Error signing in with password and email!");
       console.error("Error signing in with password and email", error);
     })
@@ -121,9 +124,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={(event) => {
-              signInWithEmailAndPasswordHandler(event, email, password);
-            }}
+            onClick={(event) => signInWithEmailAndPasswordHandler(event, email, password)}
           >
             Sign In
           </Button>
@@ -134,7 +135,7 @@ export default function SignIn() {
             variant="contained"
             color="secondary"
             className={classes.submit}
-            onClick={() => signInWithGoogle}
+            onClick={() => signInWithGoogle()}
           >
             Sign In with Google
           </Button>

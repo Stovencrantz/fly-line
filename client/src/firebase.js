@@ -19,13 +19,19 @@ const firebaseConfig = {
 
   const provider = new firebase.auth.GoogleAuthProvider();
   export const signInWithGoogle = () => {
-      auth.signInWithPopup(provider);
+      auth.signInWithPopup(provider)
+      .then((result) => {
+          console.log("Google auth result: ", result)
+      })
   };
 
 
 // Generate a user document on firestore
 export const generateUserDocument = async (user, additionalData) => {
-    if (!user) return;
+    if (!user) {
+        console.log("no user found");
+        return;
+    }
 
     const userRef = firestore.doc(`users/${user.uid}`);
     const snapshot = await userRef.get();
@@ -42,7 +48,7 @@ export const generateUserDocument = async (user, additionalData) => {
             console.error("error creating user document", error)
         }
     }
-    return generateUserDocument(user.uid);
+    return getUserDocument(user.uid);
   };
 
 //   Get a user document from firestore
