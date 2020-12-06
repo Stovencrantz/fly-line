@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "@material-ui/core";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { UserContext } from "../../providers/UserProvider"
 import {auth, signInWithGoogle, generateUserDocument} from "../../firebase";
 
 export default function SignUp() {
@@ -54,9 +53,9 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
-  const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
+  const createUserWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
 
     auth.createUserWithEmailAndPassword(email, password)
@@ -76,7 +75,7 @@ export default function SignUp() {
             // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    if (errorCode == 'auth/weak-password') {
+    if (errorCode === 'auth/weak-password') {
       alert('The password is too weak.');
     } else {
       alert(errorMessage);
@@ -84,24 +83,6 @@ export default function SignUp() {
     console.log(error);
     })
 
-    // try{
-    //   const {user} = await auth.createUserWithEmailAndPassword(email, password)
-
-    //   generateUserDocument(user)
-    //   .then(result => console.log("You signed up as: ", result))
-
-    // }
-    // catch(error) {
-    //   // Handle Errors here.
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   if (errorCode == 'auth/weak-password') {
-    //     alert('The password is too weak.');
-    //   } else {
-    //     alert(errorMessage);
-    //   }
-    //   console.log(error);
-    // };
 
     setEmail("");
     setPassword("");

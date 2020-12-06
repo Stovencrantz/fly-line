@@ -21,8 +21,9 @@ const firebaseConfig = {
   export const signInWithGoogle = () => {
       auth.signInWithPopup(provider)
       .then((result) => {
-          console.log("Google auth result: ", result)
+          return console.log("Signed in with google: ", result.user)
       })
+      .catch( error => console.log("Couldnt log in with google: ", error))
   };
 
 

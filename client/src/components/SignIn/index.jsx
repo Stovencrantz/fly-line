@@ -129,16 +129,15 @@ export default function SignIn() {
             Sign In
           </Button>
         <p style={{textAlign: "center"}}>Or</p>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-            onClick={() => signInWithGoogle()}
-          >
-            Sign In with Google
-          </Button>
+        <Button
+         fullWidth
+          variant="contained"
+          color="secondary"
+          className="MuiButton-fullWidth py-2 text-white"
+          onClick={() => signInWithGoogle()}
+        >
+          Sign In with Google
+        </Button>
           <Grid container>
             <Grid item xs>
               <Link href="/passwordReset" variant="body2">
