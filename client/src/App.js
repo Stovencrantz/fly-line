@@ -13,7 +13,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import HeaderNav from "./components/HeaderNav";
 import FooterNav from "./components/FooterNav";
 import Test from "./components/Test";
-// import Application from "./components/Application";
+import Application from "./components/Application";
 import UserContext from "./context/userContext";
 import { auth, generateUserDocument } from "./firebase";
 import SignIn from "./components/SignIn";
@@ -39,22 +39,7 @@ export default function App() {
   return (
     <UserContext.Provider value={{ userContext, setUserContext }}>
       <div className="App">
-        <HeaderNav />
-        <Container flex>
-          {/* <Application /> */}
-          {userContext.user  ? (
-            <ProfilePage />
-          ) : (
-            <Router>
-              <Switch>
-                <Route exact path={["/", "/signin"]} component={SignIn} />
-                <Route path="/signup" component={SignUp} />
-                <Route exact path="/passwordreset" component={PasswordReset} />
-              </Switch>
-            </Router>
-          )}
-        </Container>
-        <FooterNav />
+          <Application />
       </div>
     </UserContext.Provider>
   );

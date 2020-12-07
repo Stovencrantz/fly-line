@@ -1,25 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
 import ProfilePage from "../../pages/ProfilePage";
 import PasswordReset from "../PasswordReset";
-import UserContext from "../../context/userContext"
+import { auth, generateUserDocument } from "../../firebase";
+import UserContext from "../../context/userContext";
+import HeaderNav from "../../components/HeaderNav";
+import FooterNav from "../../components/FooterNav";
+import MapPage from "../../pages/MapPage";
+import { Container } from "@material-ui/core";
 
 export default function Application() {
-
   const { userContext, setUserContext } = useContext(UserContext);
-  console.log("User: ", userContext)
-  
-  return userContext ? (
-    <ProfilePage />
-  ) : (
-    <Router>
-      <Switch>
-        <Route exact path={["/", "/signin"]} component={SignIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route exact path="/passwordreset" component={PasswordReset} />
-      </Switch>
-    </Router>
+
+  return (
+    <>
+      <Router>
+        {userContext.user ? (
+          <Container
+            style={{
+              minWidth: "100%",
+              paddingLeft: "0px",
+              paddingRight: "0px",
+            }}
+          >
+            <HeaderNav />
+            <Switch>
+              <Route exact path="/" component={ProfilePage} />
+              <Route exact path ="/map" component={MapPage} />
+            </Switch>
+            <FooterNav />
+          </Container>
+        ) : (
+          <Switch>
+            <Route exact path={["/", "/signin"]} component={SignIn} />
+            <Route path="/signup" component={SignUp} />
+            <Route exact path="/passwordreset" component={PasswordReset} />
+          </Switch>
+        )}
+      </Router>
+    </>
   );
 }
