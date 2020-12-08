@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./style.css";
 import mapboxgl from "mapbox-gl";
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
@@ -9,7 +9,7 @@ export default function Map() {
   // React-scripts uses dotenv library under the hood, so environment vars can be accessed // without need for the npm package
   // But all vars in the .env file must preface with REACT_APP_<Our var name here>
 
-  mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
    
 function successLocation(position) {
     console.log("position: ", position);
@@ -45,8 +45,13 @@ function setupMap(center) {
         
 }
 
+const [ coords, setCoords ] = useState({})
 
- navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true });
+useEffect(() => {
+  navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true });
+}, [])
+
+
 
 
   return (
