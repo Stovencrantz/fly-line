@@ -46,6 +46,10 @@ export default function SignUp() {
         submit: {
           margin: theme.spacing(3, 0, 2),
         },
+        appTitle: {
+          fontFamily: 'Condiment',
+          fontSize: "5vmin"
+        }
       }));
 
   const classes = useStyles();
@@ -108,6 +112,9 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+      <Typography component="h1" variant="h5" className={classes.appTitle}>
+          FLY-LINE
+        </Typography>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>

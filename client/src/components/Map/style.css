@@ -1,0 +1,21 @@
+#map
+ {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 50;
+  height: 80vh;
+  width: 90vw;
+}
+
+.sideBarStyle {
+  display: inline-block;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  background-color: #404040;
+  color: #ffffff;
+  z-index: 1 !important;
+  padding: 6px;
+  font-weight: bold;
+}

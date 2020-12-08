@@ -20,14 +20,15 @@ export default function Application() {
         {userContext.user ? (
           <Container
             style={{
-              minWidth: "100%",
+              minWidth: "100vw",
+              minHeight: "100vh",
               paddingLeft: "0px",
               paddingRight: "0px",
             }}
           >
             <HeaderNav />
             <Switch>
-              <Route exact path="/" component={ProfilePage} />
+              <Route exact path={["/", "/profile"]} component={ProfilePage} />
               <Route exact path ="/map" component={MapPage} />
             </Switch>
             <FooterNav />
