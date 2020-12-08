@@ -48,7 +48,7 @@ function setupMap(center) {
 const [ coords, setCoords ] = useState({})
 
 useEffect(() => {
-  console.log("Testing heroku env var: ", console.log(process.env.REACT_APP_MAPBOX_TOKEN));
+  console.log("Testing heroku env var: ", process.env.REACT_APP_MAPBOX_TOKEN);
   navigator.geolocation.getCurrentPosition(successLocation, errorLocation, { enableHighAccuracy: true });
 }, [])
 
