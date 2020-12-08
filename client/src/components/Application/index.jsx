@@ -28,15 +28,15 @@ export default function Application() {
           >
             <HeaderNav />
             <Switch>
-              <Route exact path={["/", "/profile"]} component={ProfilePage} />
+              <Route path={["/", "/profile"]} component={ProfilePage} />
               <Route exact path ="/map" component={MapPage} />
             </Switch>
             <FooterNav />
           </Container>
         ) : (
           <Switch>
-            <Route exact path={["/", "/signin"]} component={SignIn} />
-            <Route path="/signup" component={SignUp} />
+            <Route path={["/", "/signin"]} component={SignIn} />
+            <Route exact path="/signup" component={SignUp} />
             <Route exact path="/passwordreset" component={PasswordReset} />
           </Switch>
         )}
