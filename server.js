@@ -19,6 +19,8 @@ app.use(morgan('tiny'));
 const users = require('./routes/usersRoutes');
 app.use(users);
 
+// Always include this grouping in a MERN application
+// =============================================================================
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
     app.use(express.static('client/build'));
@@ -28,6 +30,7 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
   }
+// =============================================================================
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/users",
     {
