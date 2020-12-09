@@ -22,9 +22,12 @@ export default function HeaderNav() {
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    title: {
+ 
+    appTitle: {
       flexGrow: 1,
-    },
+      fontFamily: 'Condiment',
+      fontSize: "3vmin"
+    }
   }));
   const classes = useStyles();
 
@@ -50,7 +53,7 @@ export default function HeaderNav() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="relative">
         <Toolbar>
           <IconButton
             edge="start"
@@ -61,7 +64,7 @@ export default function HeaderNav() {
             <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" className={classes.title}>
+          <Typography align="center" variant="h6" className={classes.appTitle}>
             FLY-LINE
           </Typography>
           <Button color="inherit" contained onClick={() => avatarEx()}>
