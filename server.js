@@ -6,6 +6,7 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const PORT = process.env.PORT || 5000;
+require('dotenv').config();
 
 
 app.use(bodyParser.json());
@@ -18,6 +19,8 @@ app.use(morgan('tiny'));
 // API
 const users = require('./routes/usersRoutes');
 app.use(users);
+const weather = require('./routes/weatherRoutes');
+app.use(weather);
 
 // Always include this grouping in a MERN application
 // =============================================================================

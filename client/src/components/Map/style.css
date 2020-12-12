@@ -8,12 +8,13 @@
 
 .sideBarStyle {
   display: inline-block;
-  top: 0;
+  position: absolute;
+  top: 50px;
   left: 0;
   margin: 12px;
   background-color: #404040;
   color: #ffffff;
-  z-index: 1 !important;
+  z-index: 2 !important;
   padding: 6px;
   font-weight: bold;
 }
