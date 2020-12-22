@@ -5,7 +5,7 @@ import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { Fab } from "@material-ui/core";
+import { Fab, Hidden } from "@material-ui/core";
 import API from "../../utils/API";
 import ForecastDisplay from "../../components/ForecastDisplay";
 
@@ -69,6 +69,11 @@ export default function Map() {
         lat: map.getCenter().lat.toFixed(4),
         zoom: map.getZoom().toFixed(2),
       });
+
+      // =============================================
+      // After user moves to location, wait 2 seconds after click to ensure this is the users destination. Then run call to forecast API
+      // =============================================
+      handleWeatherBtnClick()
     });
   }
 
@@ -117,14 +122,18 @@ export default function Map() {
           </Fab>
         )} */}
 
+{/* Hidden component with attribute of lgUp, in this case, prevents the display of our weather button which brings out our weather modal,
+ from appearing on the bottom, for any device above medium size screens. I.e. this button will only appear on mobile devices */}
+        <Hidden lgUp implementation="css">
           <Fab
             variant="extended"
             color="primary"
             className="weatherBtn"
             onClick={() => handleWeatherBtnClick()}
-          >
+            >
             Weather
           </Fab>
+        </Hidden>
         <div className="sidebarStyle">
           <div>
             Longitude: {coords.lng} | Latitude: {coords.lat} | Zoom:{" "}

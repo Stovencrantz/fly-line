@@ -43,8 +43,14 @@ const useStyles = makeStyles((theme) => ({
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
-  drawerPaper: {
+  // Width of the modal that appears at bottom of screen for mobile devices
+  drawerPaperMobile: {
     width: '100%',
+  },
+  // Width of the modal that appears at the left of screen for desktop 
+  drawerPaperDesktop: {
+    width: '15%',
+    zIndex: 0
   },
   content: {
     flexGrow: 1,
@@ -56,11 +62,11 @@ function ForecastDisplay(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-//   const [mobileOpen, setMobileOpen] = React.useState(false);
+  // const [mobileOpen, setMobileOpen] = React.useState(false);
 
-//   const handleDrawerToggle = () => {
-//     setMobileOpen(!mobileOpen);
-//   };
+  // const handleDrawerToggle = () => {
+  //   setMobileOpen(!mobileOpen);
+  // };
 
 useEffect(() => {
     console.log("Props: ", props)
@@ -107,7 +113,7 @@ useEffect(() => {
             open={props.mobileOpen}
             onClose={props.handleDrawerToggle}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaperMobile,
             }}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
@@ -116,10 +122,11 @@ useEffect(() => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        {/* Hidden component with attribute of mdDown, in this case, prevents our permanent drawer model from appearing on the left hand side for any device below desktop size screens */}
+        <Hidden mdDown implementation="css">
           <Drawer
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaperDesktop,
             }}
             variant="permanent"
             open
