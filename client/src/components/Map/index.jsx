@@ -15,14 +15,17 @@ export default function Map() {
 
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
+  const [coords, setCoords] = useState({ lng: "", lat: "", zoom: "" });
+  const [drawer, setDrawer] = useState(false);
+
   function successLocation(position) {
-    console.log("position: ", position);
     setCoords({
       lng: position.coords.longitude,
       lat: position.coords.latitude,
       zoom: 12,
     });
     setupMap([position.coords.longitude, position.coords.latitude]);
+    setupMap([coords.lng, coords.lat]);
   }
 
   function errorLocation(error) {
@@ -35,10 +38,7 @@ export default function Map() {
     setupMap([-2.24, 53.48]);
   }
 
-  const [coords, setCoords] = useState({ lng: "", lat: "", zoom: "" });
-  const [drawer, setDrawer] = useState(false);
-
-  function setupMap(center) {
+  function setupMap(center) { 
     var map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
@@ -69,12 +69,21 @@ export default function Map() {
         lat: map.getCenter().lat.toFixed(4),
         zoom: map.getZoom().toFixed(2),
       });
-
       // =============================================
       // After user moves to location, wait 2 seconds after click to ensure this is the users destination. Then run call to forecast API
       // =============================================
-      handleWeatherBtnClick()
+      // handleWeatherBtnClick()
     });
+
+    map.on("moveend", () => {
+      // setCoords({
+      //   lng: map.getCenter().lng.toFixed(4),
+      //   lat: map.getCenter().lat.toFixed(4),
+      //   zoom: map.getZoom().toFixed(2),
+      // });
+      console.log("We arrived at our destination")
+      getWeatherAtMapCenter();
+    })
   }
 
   useEffect(() => {
@@ -83,24 +92,30 @@ export default function Map() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("updatedCoords: ", coords);
-  }, [coords]);
+  // useEffect(() => {
+  //   console.log("updatedCoords: ", coords);
+  // }, [coords]);
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-
+// Fetch forecast API at map center for Mobile devices after the user clicks the weather button
   async function handleWeatherBtnClick() {
-    // setDrawer(true)
     handleDrawerToggle();
-    console.log("acccessing coords data from weather btn", coords);
+    console.log("acccessing coords from mobile", coords);
     const forecast = await API.getForecast(coords);
     console.log("Forecast: ", forecast);
-    
+  }
 
+// Fetch forecast API at map center for desktop after the user finishes navigating around the map
+  async function getWeatherAtMapCenter() {
+    console.log("acccessing coords from Desktop", coords);
+    // console.log(new Date().toISOString())
+
+    const forecast = await API.getForecast(coords);
+    console.log("Forecast: ", forecast);
   }
 
   return (

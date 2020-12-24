@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import CloudTwoToneIcon from '@material-ui/icons/CloudTwoTone';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -62,20 +63,26 @@ function ForecastDisplay(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  // const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  // const handleDrawerToggle = () => {
-  //   setMobileOpen(!mobileOpen);
-  // };
-
-useEffect(() => {
-    console.log("Props: ", props)
-})
 
 // Actual content within our drawer
   const drawer = (
     <div>
       <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        <ListItem button key="currentWeather">
+          <ListItemIcon> <CloudTwoToneIcon /> </ListItemIcon>
+          <ListItemText primary="Current Weather" />
+        </ListItem>
+      </List>
+      {/* <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List> */}
       <Divider />
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (

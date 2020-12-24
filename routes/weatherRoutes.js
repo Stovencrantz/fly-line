@@ -7,6 +7,8 @@ router.get("/api/weather/:lng/:lat",  async (req, res) => {
 
   console.log("Request body: ", req.params);
   const api_url = `https://api.stormglass.io/forecast?lat=${req.params.lat}&lng=${req.params.lng}`;
+  // const api_url = `https://api.stormglass.io/forecast?lat=${req.params.lat}&lng=${req.params.lng}&start=${new Date().toISOString()}`;
+
 
     const response = await axios.get(api_url, {
         headers: {
