@@ -25,7 +25,6 @@ export default function Map() {
       zoom: 12,
     });
     setupMap([position.coords.longitude, position.coords.latitude]);
-    setupMap([coords.lng, coords.lat]);
   }
 
   function errorLocation(error) {
@@ -51,6 +50,9 @@ export default function Map() {
     const nav = new mapboxgl.NavigationControl();
     map.addControl(nav, "top-right");
 
+// =============================================
+// Code block for adding direction control to map. -- implement a button to bring up the direction Control
+// =============================================
     // const directions = new MapboxDirections({
     //   accessToken: mapboxgl.accessToken,
     // });
@@ -63,38 +65,40 @@ export default function Map() {
     });
     map.addControl(geocoder, "top-left");
 
-    map.on("move", () => {
+    // map.on("move", () => {
+    //   setCoords({
+    //     lng: map.getCenter().lng.toFixed(4),
+    //     lat: map.getCenter().lat.toFixed(4),
+    //     zoom: map.getZoom().toFixed(2),
+    //   });
+    //   // =============================================
+    //   // After user moves to location, wait 2 seconds after click to ensure this is the users destination. Then run call to forecast API
+    //   // =============================================
+    //   // handleWeatherBtnClick()
+    // });
+
+    map.on("moveend", () => {
       setCoords({
         lng: map.getCenter().lng.toFixed(4),
         lat: map.getCenter().lat.toFixed(4),
         zoom: map.getZoom().toFixed(2),
       });
-      // =============================================
-      // After user moves to location, wait 2 seconds after click to ensure this is the users destination. Then run call to forecast API
-      // =============================================
-      // handleWeatherBtnClick()
-    });
-
-    map.on("moveend", () => {
-      // setCoords({
-      //   lng: map.getCenter().lng.toFixed(4),
-      //   lat: map.getCenter().lat.toFixed(4),
-      //   zoom: map.getZoom().toFixed(2),
-      // });
-      console.log("We arrived at our destination")
-      getWeatherAtMapCenter();
     })
   }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
       enableHighAccuracy: true,
-    });
+    })
+    
+    
   }, []);
 
-  // useEffect(() => {
-  //   console.log("updatedCoords: ", coords);
-  // }, [coords]);
+  useEffect(() => {
+    console.log("We arrived at our destination", coords)      
+    getWeatherAtMapCenter();
+
+  }, [coords]);
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
@@ -102,7 +106,8 @@ export default function Map() {
   };
 
 // Fetch forecast API at map center for Mobile devices after the user clicks the weather button
-  async function handleWeatherBtnClick() {
+  async function handleWeatherBtnClick(event) {
+    event.preventDefault();
     handleDrawerToggle();
     console.log("acccessing coords from mobile", coords);
     const forecast = await API.getForecast(coords);
@@ -111,11 +116,15 @@ export default function Map() {
 
 // Fetch forecast API at map center for desktop after the user finishes navigating around the map
   async function getWeatherAtMapCenter() {
-    console.log("acccessing coords from Desktop", coords);
-    // console.log(new Date().toISOString())
+  
+    const currentWeather = await API.getCurrentWeather(coords);
+    console.log("CurrentWeather: ", currentWeather);
 
-    const forecast = await API.getForecast(coords);
-    console.log("Forecast: ", forecast);
+    const fiveDayForecast = await API.getFiveDayForecast(coords);
+    console.log("fivedayforecast: ", fiveDayForecast);
+
+    const maritimeForecast = await API.getMaritimeForecast(coords);
+    console.log("Maritime Forecast: ", maritimeForecast);
   }
 
   return (
