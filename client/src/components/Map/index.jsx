@@ -17,6 +17,14 @@ export default function Map() {
 
   const [coords, setCoords] = useState({ lng: "", lat: "", zoom: "" });
   const [drawer, setDrawer] = useState(false);
+  const [currentWeatherData, setCurrentWeatherData] = useState({
+    weatherIconCode: "",
+    temp: "",
+    feelsLike: "",
+    humidity: "",
+    windSpeed: "",
+    windDirection: ""
+  })
 
   function successLocation(position) {
     setCoords({
@@ -119,6 +127,14 @@ export default function Map() {
   
     const currentWeather = await API.getCurrentWeather(coords);
     console.log("CurrentWeather: ", currentWeather);
+    setCurrentWeatherData({
+      weatherIconCode: currentWeather.weather[0].icon,
+      temp: currentWeather.main.temp,
+      feelsLike: currentWeather.main.feels_like,
+      humidity: currentWeather.main.humidity,
+      windSpeed: currentWeather.wind.speed,
+      windDirection: currentWeather.wind.deg
+    })
 
     const fiveDayForecast = await API.getFiveDayForecast(coords);
     console.log("fivedayforecast: ", fiveDayForecast);
@@ -165,7 +181,7 @@ export default function Map() {
           </div>
         </div>
 
-        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
+        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}}/>
 
       </div>
     </>
