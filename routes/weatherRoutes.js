@@ -41,7 +41,7 @@ router.get("/api/maritimeforecast/:lng/:lat",  async (req, res) => {
     })
     .catch(error => console.log(error))
 
-    // console.log("response: ", response)
+    // console.log("response: ", response.data)
     res.send(response.data)  
 })
 

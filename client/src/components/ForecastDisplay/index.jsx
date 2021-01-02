@@ -86,9 +86,22 @@ function ForecastDisplay(props) {
   console.log(iconUrl);
 
   function kelvinToFahrenheit(kelvin) {
-    const fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
+    let fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
     return Math.round(fahrenheit);
   }
+
+  function degToCompass(num) {
+    let val = Math.floor((num / 22.5) + 0.5);
+    let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+
+  function mpsToMph(metersPerSecond) {
+    let milesPerHour = Math.floor(metersPerSecond*2.237);
+    return milesPerHour;
+  }
+
+
   // Actual content within our drawer
   const drawer = (
     <div>
@@ -138,21 +151,19 @@ function ForecastDisplay(props) {
               <Grid container>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper}>
-                    <FontAwesomeIcon icon={faLocationArrow} size="2x" style={{ transform: `rotate(${currentWeatherData.windDirection}deg)`}}/>
-
-
+                    {/* we subtract 45 degrees from the total angle to correctly align the arrow in our icon with the true angle position*/}
+                    <FontAwesomeIcon icon={faLocationArrow} size="2x" style={{ transform: `rotate(${currentWeatherData.windDirection-45}deg)`}}/>
                   </Paper>
                 </Grid>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper} style={{ fontSize: "1em" }}>
-                    <p>{kelvinToFahrenheit(currentWeatherData.temp)}°</p>
+                    <p>{mpsToMph(currentWeatherData.windSpeed)}mph</p>
                   </Paper>
                 </Grid>
                 <Grid item xs={12} spacing={1} direction="column">
                   <Paper className={classes.paper}>
                     <p>
-                      Feels Like{" "}
-                      {kelvinToFahrenheit(currentWeatherData.feelsLike)}°
+                      {degToCompass(currentWeatherData.windDirection)}
                     </p>
                   </Paper>
                 </Grid>
