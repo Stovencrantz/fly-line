@@ -19,7 +19,7 @@ import CloudTwoToneIcon from "@material-ui/icons/CloudTwoTone";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationArrow } from '@fortawesome/free-solid-svg-icons'
+import { faLocationArrow, faWater } from '@fortawesome/free-solid-svg-icons'
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  gridItems: {
+    alignItems: "center"
+  },
   paper: {
     // padding: theme.spacing(1),
     textAlign: "center",
@@ -85,8 +88,15 @@ function ForecastDisplay(props) {
   const iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
   console.log(iconUrl);
 
+  const { maritimeData } = props.maritimeData;
+  console.log("Current maritime data from props", maritimeData)
+
   function kelvinToFahrenheit(kelvin) {
     let fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
+    return Math.round(fahrenheit);
+  }
+  function celsiusToFahrenheit(celsius) {
+    let fahrenheit = (celsius*(9/5))+32;
     return Math.round(fahrenheit);
   }
 
@@ -116,13 +126,13 @@ function ForecastDisplay(props) {
           <ListItemText primary="Current Weather" />
         </ListItem>
         <ListItem>
-          <Grid container xs={12} spacing={1} justify="center" direction="row">
+          <Grid container xs={12} spacing={1} justify="center"  direction="row">
             {/* ====================================================================================== */}
             {/* weather */}
             {/* ====================================================================================== */}
 
-            <Grid item xs={4} className="1">
-              <Grid container>
+            <Grid item xs={4}  id="weatherDetails" style={{alignSelf: "center"}}>
+              <Grid container className={classes.gridItems} >
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper}>
                     <img id="wicon" src={iconUrl} alt="Weather icon" />
@@ -147,8 +157,8 @@ function ForecastDisplay(props) {
             {/* Wind */}
             {/* ====================================================================================== */}
 
-            <Grid item xs={4} className="1">
-              <Grid container>
+            <Grid item xs={4}  id="windDetails">
+              <Grid container className={classes.gridItems}>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper}>
                     {/* we subtract 45 degrees from the total angle to correctly align the arrow in our icon with the true angle position*/}
@@ -157,13 +167,16 @@ function ForecastDisplay(props) {
                 </Grid>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper} style={{ fontSize: "1em" }}>
-                    <p>{mpsToMph(currentWeatherData.windSpeed)}mph</p>
+                    {mpsToMph(currentWeatherData.windSpeed)}mph
+                  </Paper>
+                  <Paper className={classes.paper} style={{ fontSize: "1em" }}>
+                    {degToCompass(currentWeatherData.windDirection)}
+
                   </Paper>
                 </Grid>
                 <Grid item xs={12} spacing={1} direction="column">
                   <Paper className={classes.paper}>
-                    <p>
-                      {degToCompass(currentWeatherData.windDirection)}
+                    <p>Gusts up to {mpsToMph(currentWeatherData.windGust)}mph
                     </p>
                   </Paper>
                 </Grid>
@@ -172,16 +185,16 @@ function ForecastDisplay(props) {
             {/* ====================================================================================== */}
             {/* Waves */}
             {/* ====================================================================================== */}
-            <Grid item xs={4} className="1">
-              <Grid container>
+            <Grid item xs={4}  id="waveDetails">
+              <Grid container className={classes.gridItems}>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper}>
-                    <img id="wicon" src={iconUrl} alt="Weather icon" />
+                    <FontAwesomeIcon icon={faWater} size="2x" style={{ color: "cyan"}}/>
                   </Paper>
                 </Grid>
                 <Grid item xs={6} spacing={1} direction="column">
                   <Paper className={classes.paper} style={{ fontSize: "1em" }}>
-                    <p>{kelvinToFahrenheit(currentWeatherData.temp)}°</p>
+                    <p>{celsiusToFahrenheit(maritimeData.waterTemp)}°</p>
                   </Paper>
                 </Grid>
                 <Grid item xs={12} spacing={1} direction="column">

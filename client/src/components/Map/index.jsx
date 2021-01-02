@@ -25,6 +25,10 @@ export default function Map() {
     windSpeed: "",
     windDirection: ""
   })
+  const [maritimeData, setMaritimeData] = useState({
+    waterTemp: "",
+    waveHeight: "",
+  })
 
   function successLocation(position) {
     setCoords({
@@ -133,14 +137,20 @@ export default function Map() {
       feelsLike: currentWeather.main.feels_like,
       humidity: currentWeather.main.humidity,
       windSpeed: currentWeather.wind.speed,
-      windDirection: currentWeather.wind.deg
+      windDirection: currentWeather.wind.deg,
+      windGust: currentWeather.wind.gust
     })
 
     const fiveDayForecast = await API.getFiveDayForecast(coords);
     console.log("fivedayforecast: ", fiveDayForecast);
+    
 
     const maritimeForecast = await API.getMaritimeForecast(coords);
     console.log("Maritime Forecast: ", maritimeForecast);
+    setMaritimeData({
+      waterTemp: maritimeForecast.hours[0].waterTemperature[0].value,
+      waveHeight: maritimeForecast.hours[0].waveHeight[0].value
+    })
   }
 
   return (
@@ -181,7 +191,7 @@ export default function Map() {
           </div>
         </div>
 
-        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}}/>
+        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}} maritimeData={{maritimeData}}/>
 
       </div>
     </>

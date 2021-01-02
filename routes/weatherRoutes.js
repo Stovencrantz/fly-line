@@ -32,7 +32,8 @@ router.get("/api/fivedayforecast/:lng/:lat",  async (req, res) => {
 router.get("/api/maritimeforecast/:lng/:lat",  async (req, res) => {
 
   console.log("Request body: ", req.params);
-  const api_url = `https://api.stormglass.io/forecast?lat=${req.params.lat}&lng=${req.params.lng}&start=${new Date().toISOString()}`;
+  const params = "waveHeight,waterTemperature"
+  const api_url = `https://api.stormglass.io/forecast?lat=${req.params.lat}&lng=${req.params.lng}&params=${params}&start=${new Date().toISOString()}`;
 
     const response = await axios.get(api_url, {
         headers: {
