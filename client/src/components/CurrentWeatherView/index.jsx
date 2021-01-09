@@ -95,7 +95,7 @@ export default function CurrentWeatherView(props) {
       {/* weather */}
       {/* ====================================================================================== */}{" "}
       <Grid item xs={4}>
-        <Grid container xs={12} id="weatherDetails">
+        <Grid item xs={12} container  id="weatherDetails">
           <Grid item xs={6}>
             <img id="wicon" src={iconUrl} alt="Weather icon" />
           </Grid>

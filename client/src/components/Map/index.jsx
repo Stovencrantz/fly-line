@@ -5,9 +5,10 @@ import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { Fab, Hidden } from "@material-ui/core";
+import { Fab, Hidden, Modal } from "@material-ui/core";
 import API from "../../utils/API";
 import ForecastDisplay from "../../components/ForecastDisplay";
+import WeatherForecastGraph from "../WeatherForecastGraph";
 
 export default function Map() {
   // React-scripts uses dotenv library under the hood, so environment vars can be accessed // without need for the npm package
@@ -25,10 +26,15 @@ export default function Map() {
     windSpeed: "",
     windDirection: ""
   })
+  const [fiveDayForecastData, setFiveDayForecastData] = useState({
+    fiveDayForecast: ""
+  })
+
   const [maritimeData, setMaritimeData] = useState({
     waterTemp: "",
     waveHeight: "",
   })
+
 
   function successLocation(position) {
     setCoords({
@@ -76,18 +82,6 @@ export default function Map() {
       marker: true, // Do not use the default marker style
     });
     map.addControl(geocoder, "top-left");
-
-    // map.on("move", () => {
-    //   setCoords({
-    //     lng: map.getCenter().lng.toFixed(4),
-    //     lat: map.getCenter().lat.toFixed(4),
-    //     zoom: map.getZoom().toFixed(2),
-    //   });
-    //   // =============================================
-    //   // After user moves to location, wait 2 seconds after click to ensure this is the users destination. Then run call to forecast API
-    //   // =============================================
-    //   // handleWeatherBtnClick()
-    // });
 
     map.on("moveend", () => {
       setCoords({
@@ -143,7 +137,9 @@ export default function Map() {
 
     const fiveDayForecast = await API.getFiveDayForecast(coords);
     console.log("fivedayforecast: ", fiveDayForecast);
-    
+    setFiveDayForecastData({
+      fiveDayForecast: fiveDayForecast.list
+    })
 
     const maritimeForecast = await API.getMaritimeForecast(coords);
     console.log("Maritime Forecast: ", maritimeForecast);
@@ -153,27 +149,29 @@ export default function Map() {
     })
   }
 
+  const [modal, setModal] = useState(false);
+
+  const handleModalToggle = () => {
+    setModal(!modal);
+  }
+
   return (
     <>
       <div
         id="map"
       ></div>
       <div className="map-overlay">
-        {/* {drawer === true ? (
-          <ForecastDisplay handleDrawerToggle={handleDrawerToggle} />
-        ) : (
-          <Fab
-            variant="extended"
-            color="primary"
-            className="weatherBtn"
-            onClick={() => handleWeatherBtnClick()}
-          >
-            Weather
-          </Fab>
-        )} */}
 
 {/* Hidden component with attribute of lgUp, in this case, prevents the display of our weather button which brings out our weather modal,
  from appearing on the bottom, for any device above medium size screens. I.e. this button will only appear on mobile devices */}
+          <Fab
+            variant="extended"
+            color="primary"
+            className="modalBtn"
+            onClick={handleModalToggle}
+            >
+            Modal
+          </Fab>
         <Hidden lgUp implementation="css">
           <Fab
             variant="extended"
@@ -192,6 +190,16 @@ export default function Map() {
         </div>
 
         <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}} maritimeData={{maritimeData}}/>
+        <Modal
+        open={modal}
+        onClose={() => handleModalToggle()}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        keepMounted
+        style={{ maxHeight: "750px", maxWidth: "750px", overflowX: "scrollX"}}
+      >
+          <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} />
+      </Modal>
 
       </div>
     </>
