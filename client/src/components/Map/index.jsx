@@ -196,7 +196,6 @@ export default function Map() {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         keepMounted
-        style={{ maxHeight: "750px", maxWidth: "750px", overflowX: "scrollX"}}
       >
           <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} />
       </Modal>

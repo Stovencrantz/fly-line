@@ -1,100 +1,94 @@
 import React, { useEffect } from "react";
-import Chart from "chart.js";
+import Chart from "chart.js/dist/Chart.bundle";
+import moment from "moment";
+import "./style.css";
 
 export default function WeatherForecastGraph(props) {
-    
-    const {fiveDayForecast} = props.fiveDayForecastData;
-    let tempMin = "";
-    let tempMax = "";
-    const tempData = [];
-    const timeData = [];
+  const { fiveDayForecast } = props.fiveDayForecastData;
+  let tempMin = "";
+  let tempMax = "";
+  const tempData = [];
+  const timeData = [];
+  const graphData = [];
 
-    function kelvinToFahrenheit(kelvin) {
-        let fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
-        return Math.round(fahrenheit);
-      }
+  function kelvinToFahrenheit(kelvin) {
+    let fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
+    return Math.round(fahrenheit);
+  }
 
-    if(Array.isArray(fiveDayForecast)) {
-        tempMin = fiveDayForecast[0].main.temp;
-        tempMax = fiveDayForecast[0].main.temp;
+  if (Array.isArray(fiveDayForecast)) {
+    tempMin = fiveDayForecast[0].main.temp;
+    tempMax = fiveDayForecast[0].main.temp;
 
     fiveDayForecast.map((hour, index) => {
-        let temp = hour.main.temp;
-        //set tempMin
-        if (temp < tempMin) {
-            tempMin = temp;
-        }
-        //set tempMax
-        if (temp > tempMax) {
-            tempMax = temp;
-        }
-        
-        tempData.push(kelvinToFahrenheit(temp));
+      let temp = hour.main.temp;
+      //set tempMin
+      if (temp < tempMin) {
+        tempMin = temp;
+      }
+      //set tempMax
+      if (temp > tempMax) {
+        tempMax = temp;
+      }
 
-        let unix_timestamp = hour.dt;
-        // Create a new JavaScript Date object based on the timestamp
-        // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-        var date = new Date(unix_timestamp * 1000);
-        // Hours part from the timestamp
-        var hours = date.getHours();
-        // Minutes part from the timestamp
-        var minutes = "0" + date.getMinutes();
-        // Seconds part from the timestamp
-        var seconds = "0" + date.getSeconds();
+      tempData.push(kelvinToFahrenheit(temp));
+      graphData.push({ t: moment.unix(hour.dt), y: kelvinToFahrenheit(temp) });
+    });
 
-        // Will display time in 10:30:23 format
-        var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-        // console.log(formattedTime);
-
-        timeData.push(formattedTime)
-
-
-    })
     tempMin = kelvinToFahrenheit(tempMin);
     tempMax = kelvinToFahrenheit(tempMax);
     console.log("tempMin: ", tempMin, ", tempMax: ", tempMax);
-    console.log("tempData: ", tempData)
+    console.log("graphData: ", graphData);
 
-    const ctx = 'myChart';
-    const myChart = new Chart(ctx, {
+    const startDate = moment.unix(fiveDayForecast[0].dt);
+    const endDate = moment.unix(fiveDayForecast[fiveDayForecast.length - 1].dt);
+
+    const ctx = "myChart";
+    var myChart = new Chart(ctx, {
       type: "line",
       data: {
-        // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        labels: timeData,
         datasets: [
           {
-            label: "# of Votes",
-            data: tempData,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-            ],
+            label: "Temperature Forecast",
+            data: graphData,
+            backgroundColor: ["rgba(255, 99, 132, 0.2)"],
+            borderColor: ["rgba(255, 99, 132, 1)"],
             borderWidth: 1,
           },
         ],
       },
+
       options: {
+        responsive: true,
+        maintainAspectRatio: true,
         scales: {
-          yAxes: [
+          xAxes: [
             {
+              type: "time",
+              time: {
+                unit: "hour",
+              },
               ticks: {
-              //   beginAtZero: true,
-                min: tempMin-5,
-                max: tempMax+5
+                min: startDate,
+                max: endDate,
+                maxTicksLimit: 30,
               },
             },
           ],
         },
       },
     });
-    }
+  }
 
+  return (
+    <div className="chartContainerWrapper" style={{ maxWidth: '375px', maxHeight: "400px", overflowX: 'scroll'}}>
+          <div className="chartContainer" style={{position: 'relative', width:'1000px'}}
+    >
+      <canvas id="myChart"  style={{backgroundColor: "white"}}>
+        {console.log(document.getElementById('myChart'))}
+      </canvas>
+    </div>
+    </div>
 
-
-
-  return <canvas id="myChart" style={{backgroundColor: "white"}}></canvas>;
+  );
 }
