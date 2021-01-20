@@ -20,6 +20,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow, faWater } from "@fortawesome/free-solid-svg-icons";
+import WeatherForecastGraph from "../WeatherForecastGraph";
 
 import CurrentWeatherView from "../CurrentWeatherView";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -98,6 +99,8 @@ function ForecastDisplay(props) {
   const { maritimeData } = props.maritimeData;
   console.log("Current maritime data from props", maritimeData);
 
+  const { fiveDayForecastData } = props.fiveDayForecastData;
+
   // Actual content within our drawer
   const drawer = (
     <div>
@@ -121,6 +124,16 @@ function ForecastDisplay(props) {
       </List>
       {/* material ui grid tempalte */}
       <Divider />
+      <List>
+        <ListItemText>
+          Five Day Forecast
+        </ListItemText>
+        <ListItem>
+          <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} />
+        </ListItem>
+      </List>
+      <Divider />
+
       <List>
         <ListItem button >
           <Grid
@@ -190,6 +203,7 @@ function ForecastDisplay(props) {
         </ListItem>
       </List>
       <Divider />
+
       <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem button key={text}>

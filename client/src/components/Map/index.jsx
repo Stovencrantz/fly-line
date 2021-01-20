@@ -189,7 +189,7 @@ export default function Map() {
           </div>
         </div>
 
-        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}} maritimeData={{maritimeData}}/>
+        <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}} maritimeData={{maritimeData}} fiveDayForecastData={{fiveDayForecastData}}/>
         <Modal
         open={modal}
         onClose={() => handleModalToggle()}

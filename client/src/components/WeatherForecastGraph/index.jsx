@@ -51,8 +51,8 @@ export default function WeatherForecastGraph(props) {
           {
             label: "Temperature Forecast",
             data: graphData,
-            backgroundColor: ["rgba(255, 99, 132, 0.2)"],
-            borderColor: ["rgba(255, 99, 132, 1)"],
+            backgroundColor: ["rgba(51, 204, 204, 0.2)"],
+            borderColor: ["rgba(51, 204, 204, 1)"],
             borderWidth: 1,
           },
         ],
@@ -60,18 +60,58 @@ export default function WeatherForecastGraph(props) {
 
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
+        tooltips: false,
+        legend: {
+          display: false,
+        },
         scales: {
           xAxes: [
+            // hourly X-axis
             {
+              position: "bottom",
               type: "time",
               time: {
                 unit: "hour",
+                displayFormats: {
+                  hour: "hA"
+                }
               },
+              distribution: "series",
               ticks: {
                 min: startDate,
                 max: endDate,
-                maxTicksLimit: 30,
+                maxTicksLimit: 120,
+              },
+            },
+            // Daily X-axis
+            {
+              position: "top",
+              type: "time",
+              time: {
+                unit: "day",
+                displayFormats: {
+                  day: "MMM D"
+                }
+              },
+              distribution: "linear",
+              ticks: {
+                min: startDate,
+                max: endDate,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              position: 'left',
+              scaleLabel: {
+                display: true,
+                labelString: 'Degrees (F)',
+              },
+              ticks: {
+                suggestedMin: tempMin,
+                suggestedMax: tempMax,
+                stepSize: 5
               },
             },
           ],
@@ -81,8 +121,8 @@ export default function WeatherForecastGraph(props) {
   }
 
   return (
-    <div className="chartContainerWrapper" style={{ maxWidth: '375px', maxHeight: "400px", overflowX: 'scroll'}}>
-          <div className="chartContainer" style={{position: 'relative', width:'1000px'}}
+    <div className="chartContainerWrapper" style={{ maxWidth: '375px', maxHeight: "450px", overflowX: 'scroll'}}>
+          <div className="chartContainer" style={{position: 'relative', width: "100vw", height: "250px"}}
     >
       <canvas id="myChart"  style={{backgroundColor: "white"}}>
         {console.log(document.getElementById('myChart'))}
