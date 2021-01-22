@@ -28,8 +28,8 @@ export default function Application() {
           >
             <HeaderNav />
             <Switch>
-              <Route exact path={["/", "/profile"]} component={ProfilePage} />
-              <Route exact path ="/map" component={MapPage} />
+              <Route exact path={["/", "/feed"]} component={ProfilePage} />
+              <Route exact path ="/waters" component={MapPage} />
             </Switch>
             <FooterNav />
           </Container>

@@ -18,6 +18,7 @@ export default function Map() {
 
   const [coords, setCoords] = useState({ lng: "", lat: "", zoom: "" });
   const [drawer, setDrawer] = useState(false);
+  const [modal, setModal] = useState(false);
   const [currentWeatherData, setCurrentWeatherData] = useState({
     weatherIconCode: "",
     temp: "",
@@ -149,7 +150,6 @@ export default function Map() {
     })
   }
 
-  const [modal, setModal] = useState(false);
 
   const handleModalToggle = () => {
     setModal(!modal);
