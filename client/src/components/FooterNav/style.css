@@ -1,3 +1,9 @@
 .Mui-selected .MuiBottomNavigationAction-wrapper {
         color: white;
     }
+
+.materialUiModalIcons {
+    height: 4rem !important;
+    width: 4rem !important;
+}
+
