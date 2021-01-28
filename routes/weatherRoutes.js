@@ -1,18 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-// const User = require("../models/user");
 
 router.get("/api/currentweather/:lng/:lat",  async (req, res) => {
 
-  console.log("Request body: ", req.params);
-  // const api_url = `https://api.stormglass.io/forecast?lat=${req.params.lat}&lng=${req.params.lng}`;
+  // console.log("Request body: ", req.params);
   const api_url = `https://api.openweathermap.org/data/2.5/weather?lat=${req.params.lat}&lon=${req.params.lng}&appid=${process.env.OPENWEATHERMAP_TOKEN}`;
     const response = await axios.get(api_url)
     .catch(error => console.log("weather response error: ", error))
 
-    // console.log("response: ", response)
-    // const json = await response.json();
     res.send(response.data)  
 })
 
@@ -24,8 +20,6 @@ router.get("/api/fivedayforecast/:lng/:lat",  async (req, res) => {
     const response = await axios.get(api_url)
     .catch(error => console.log("weather response error: ", error))
 
-    // console.log("response: ", response)
-    // const json = await response.json();
     res.send(response.data)  
 })
 

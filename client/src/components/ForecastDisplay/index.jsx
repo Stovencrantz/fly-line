@@ -37,20 +37,6 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     },
   },
-  appBar: {
-    [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   // Width of the modal that appears at bottom of screen for mobile devices
   drawerPaperMobile: {
     width: "100%",
@@ -129,7 +115,7 @@ function ForecastDisplay(props) {
           Five Day Forecast
         </ListItemText>
         <ListItem>
-          <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} />
+          <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} mobileOpen={props.mobileOpen}/>
         </ListItem>
       </List>
       <Divider />
@@ -138,7 +124,7 @@ function ForecastDisplay(props) {
         <ListItem button >
           <Grid
             container
-            xs={12}
+       
             spacing={1}
             justify="space-evenly"
             alignItems="center"
@@ -150,7 +136,7 @@ function ForecastDisplay(props) {
               xs={4}
               style={{ backgroundColor: "yellow", textAlign: "center" }}
             >
-              <Grid container xs={12} style={{ backgroundColor: "orange" }}>
+              <Grid container style={{ backgroundColor: "orange" }}>
                 <Grid item xs={6} style={{ backgroundColor: "green" }}>
                   <Typography className={classes.typ}>6</Typography>
                 </Grid>
@@ -168,7 +154,7 @@ function ForecastDisplay(props) {
               xs={4}
               style={{ backgroundColor: "yellow", textAlign: "center" }}
             >
-              <Grid container xs={12} style={{ backgroundColor: "orange" }}>
+              <Grid container style={{ backgroundColor: "orange" }}>
                 <Grid item xs={6} style={{ backgroundColor: "green" }}>
                   <Typography className={classes.typ}>6</Typography>
                 </Grid>
@@ -187,7 +173,7 @@ function ForecastDisplay(props) {
               xs={4}
               style={{ backgroundColor: "yellow", textAlign: "center" }}
             >
-              <Grid container xs={12} style={{ backgroundColor: "orange" }}>
+              <Grid container  style={{ backgroundColor: "orange" }}>
                 <Grid item xs={6} style={{ backgroundColor: "green" }}>
                   <Typography className={classes.typ}>6</Typography>
                 </Grid>
@@ -225,6 +211,8 @@ function ForecastDisplay(props) {
       <CssBaseline />
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+{/* Hidden component with attribute of smUp, in this case, prevents our temporary drawer model from appearing on the full screen any device above mobile device size screens */}
+      {/* MOBILE VERSION */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
@@ -242,7 +230,8 @@ function ForecastDisplay(props) {
             {drawer}
           </Drawer>
         </Hidden>
-        {/* Hidden component with attribute of mdDown, in this case, prevents our permanent drawer model from appearing on the left hand side for any device below desktop size screens */}
+{/* Hidden component with attribute of mdDown, in this case, prevents our permanent drawer model from appearing on the left hand side for any device below desktop size screens */}
+      {/* DESKTOP VERSION */}
         <Hidden mdDown implementation="css">
           <Drawer
             classes={{
@@ -250,6 +239,7 @@ function ForecastDisplay(props) {
             }}
             variant="permanent"
             open
+
           >
             {drawer}
           </Drawer>

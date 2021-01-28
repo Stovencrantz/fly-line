@@ -102,9 +102,12 @@ export default function Map() {
   }, []);
 
   useEffect(() => {
-    console.log("We arrived at our destination", coords)      
-    getWeatherAtMapCenter();
+    const timeout = setTimeout(() => {
+      console.log("We arrived at our destination", coords)      
+      getWeatherAtMapCenter();
+    }, 5000);
 
+    return () => clearTimeout(timeout);
   }, [coords]);
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -114,11 +117,12 @@ export default function Map() {
 
 // Fetch forecast API at map center for Mobile devices after the user clicks the weather button
   async function handleWeatherBtnClick(event) {
-    event.preventDefault();
+    // event.preventDefault();
     handleDrawerToggle();
-    console.log("acccessing coords from mobile", coords);
-    const forecast = await API.getForecast(coords);
-    console.log("Forecast: ", forecast);
+    // console.log("acccessing coords from mobile", coords);
+    // const currentWeather = await API.getCurrentWeather(coords);
+    // console.log("CurrentWeather: ", currentWeather);
+    // getWeatherAtMapCenter();
   }
 
 // Fetch forecast API at map center for desktop after the user finishes navigating around the map
@@ -150,11 +154,6 @@ export default function Map() {
     })
   }
 
-
-  const handleModalToggle = () => {
-    setModal(!modal);
-  }
-
   return (
     <>
       <div
@@ -164,14 +163,6 @@ export default function Map() {
 
 {/* Hidden component with attribute of lgUp, in this case, prevents the display of our weather button which brings out our weather modal,
  from appearing on the bottom, for any device above medium size screens. I.e. this button will only appear on mobile devices */}
-          <Fab
-            variant="extended"
-            color="primary"
-            className="modalBtn"
-            onClick={handleModalToggle}
-            >
-            Modal
-          </Fab>
         <Hidden lgUp implementation="css">
           <Fab
             variant="extended"
@@ -190,15 +181,7 @@ export default function Map() {
         </div>
 
         <ForecastDisplay handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} currentWeatherData={{currentWeatherData}} maritimeData={{maritimeData}} fiveDayForecastData={{fiveDayForecastData}}/>
-        <Modal
-        open={modal}
-        onClose={() => handleModalToggle()}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        keepMounted
-      >
-          <WeatherForecastGraph  fiveDayForecastData={fiveDayForecastData} />
-      </Modal>
+
 
       </div>
     </>

@@ -90,7 +90,7 @@ export default function CurrentWeatherView(props) {
   }
 
   return (
-    <Grid container xs={12} spacing={1}>
+    <Grid container  spacing={1}>
       {/* ====================================================================================== */}
       {/* weather */}
       {/* ====================================================================================== */}{" "}
@@ -119,7 +119,7 @@ export default function CurrentWeatherView(props) {
       {/* Wind */}
       {/* ====================================================================================== */}
       <Grid item xs={4}>
-        <Grid container xs={12}>
+        <Grid container >
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <FontAwesomeIcon
@@ -158,7 +158,7 @@ export default function CurrentWeatherView(props) {
       </Grid>
       {/* maritime grid item */}
       <Grid item xs={4}>
-        <Grid container xs={12}>
+        <Grid container >
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <FontAwesomeIcon

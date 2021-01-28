@@ -5,6 +5,7 @@ import "./style.css";
 
 export default function WeatherForecastGraph(props) {
   const { fiveDayForecast } = props.fiveDayForecastData;
+  const { mobileOpen } = props.mobileOpen;
   let tempMin = "";
   let tempMax = "";
   const tempData = [];
@@ -14,6 +15,10 @@ export default function WeatherForecastGraph(props) {
   function kelvinToFahrenheit(kelvin) {
     let fahrenheit = (kelvin - 273.15) * (9 / 5) + 32;
     return Math.round(fahrenheit);
+  }
+
+  function createGraph() {
+    
   }
 
   if (Array.isArray(fiveDayForecast)) {
@@ -119,6 +124,10 @@ export default function WeatherForecastGraph(props) {
       },
     });
   }
+
+  useEffect(() => {
+    console.log('rendering wather forecast graph')
+  }, [mobileOpen])
 
   return (
     <div className="chartContainerWrapper" style={{ maxWidth: '375px', maxHeight: "450px", overflowX: 'scroll'}}>

@@ -67,7 +67,7 @@ export default function HeaderNav() {
           <Typography align="center" variant="h6" className={classes.appTitle}>
             FLY-LINE
           </Typography>
-          <Button color="inherit" contained onClick={() => avatarEx()}>
+          <Button color="inherit" variant="contained" onClick={() => avatarEx()}>
             <Avatar
               alt="static image"
               src={
