@@ -6,9 +6,10 @@ import ProfilePage from "../../pages/ProfilePage";
 import PasswordReset from "../PasswordReset";
 import { auth, generateUserDocument } from "../../firebase";
 import UserContext from "../../context/userContext";
-import HeaderNav from "../../components/HeaderNav";
-import FooterNav from "../../components/FooterNav";
+import HeaderNav from "../HeaderNav";
+import FooterNav from "../FooterNav";
 import MapPage from "../../pages/MapPage";
+import CreatePost from "../CreatePost"
 import { Container } from "@material-ui/core";
 
 export default function Application() {
@@ -30,6 +31,7 @@ export default function Application() {
             <Switch>
               <Route exact path={["/", "/feed"]} component={ProfilePage} />
               <Route exact path ="/waters" component={MapPage} />
+              <Route exact path ="/createpost" component={CreatePost} />
             </Switch>
             <FooterNav />
           </Container>

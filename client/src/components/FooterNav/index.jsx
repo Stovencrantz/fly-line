@@ -92,9 +92,15 @@ export default function FooterNav() {
             </ListItem>
             {/* Add Post */}
 
-            <ListItem button className={classes.listItemButton}>
+            <ListItem button className={classes.listItemButton}
+              component={Link}
+              label="createPost"
+              value="createPost"
+              to="/createpost"
+              onClick={() => handleModalToggle()}
+            >
               <ListItemIcon>
-                <PostAddIcon className={classes.listItemIcon} />
+                <PostAddIcon className={classes.listItemIcon}/>
               </ListItemIcon>
             </ListItem>
           </List>
