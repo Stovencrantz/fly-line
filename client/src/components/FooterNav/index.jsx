@@ -71,8 +71,8 @@ export default function FooterNav() {
           style={{
             position: "relative",
             width: "fit-content",
-            left: "80%",
-            top: "65%",
+            left: "70%",
+            top: "45%",
           }}
         >
           <List component="nav" className={classes.list}>

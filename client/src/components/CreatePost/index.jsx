@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import PostFormMap from "../PostFormMap";
 import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
+import UploadButton from "../UploadButton";
 
 const useStyles = makeStyles((Theme) => ({
   formLayout: {
@@ -38,11 +40,7 @@ export default function CreatePost() {
         <div>
           {" "}
           {/* Select photos of fish */}
-          <input type="file" id="file-selector multiple" />
-        </div>
-        <div>
-          {" "}
-          <Input type="file" />
+            <UploadButton />
         </div>
         <div>
           {" "}

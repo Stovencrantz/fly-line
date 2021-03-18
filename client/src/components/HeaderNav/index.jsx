@@ -67,7 +67,7 @@ export default function HeaderNav() {
           <Typography align="center" variant="h6" className={classes.appTitle}>
             FLY-LINE
           </Typography>
-          <Button color="inherit" variant="contained" onClick={() => avatarEx()}>
+          <Button  onClick={() => avatarEx()}>
             <Avatar
               alt="static image"
               src={
@@ -76,12 +76,13 @@ export default function HeaderNav() {
               }
             ></Avatar>
           </Button>
-          <button
-            className="w-full py-3 bg-red-600 mt-4 text-white"
+          <Button
+            variant="outlined"
+            color="inherit"
             onClick={() => handleSignOut()}
           >
             Sign out
-          </button>
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
