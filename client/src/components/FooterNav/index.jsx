@@ -75,7 +75,7 @@ export default function FooterNav() {
             top: "65%",
           }}
         >
-          <List component="nav">
+          <List component="nav" className={classes.list}>
             {/* Create Story */}
 
             <ListItem button className={classes.listItemButton}>
