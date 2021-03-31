@@ -11,7 +11,7 @@ const useStyles = makeStyles((Theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "10%"
+    marginTop: "2%"
   },
   form: {
     width: "100%",
@@ -51,7 +51,6 @@ export default function CreatePost() {
             required
             label="Fish Weight"
             placeholder="2 lbs"
-            defaultValue="success"
           />
         </div>
 
@@ -68,7 +67,8 @@ export default function CreatePost() {
         </div>
 
         {/* Location on map */}
-        <PostFormMap />
+          <PostFormMap />
+
       </form>
     </div>
   );

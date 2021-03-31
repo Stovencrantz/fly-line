@@ -6,10 +6,19 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((Theme) => ({
     mapLayout: {
-        position: "static",
+        position: "absolute",
         borderStyle: "solid",
-        borderWidth: "5px",
-        width: "50%",
+        borderRadius: "5px",
+        borderColor: "grey",
+        borderWidth: "2px",
+        width: "80%",
+        height: "42%",
+        // marginLeft: "auto",
+        // marginRight: "auto",
+        margin: "10px auto 0px auto",
+        left: "0",
+        right: "0",
+        textAlign: "center"
     }
 }))
 
@@ -39,6 +48,7 @@ export default function PostFormMap() {
         setupMap([-2.24, 53.48]);
       }
     
+    
       function setupMap(center) { 
         var map = new mapboxgl.Map({
           container: "postFormMap",
@@ -46,7 +56,14 @@ export default function PostFormMap() {
           center: center,
           zoom: 12,
         });
-    
+
+        var marker = new mapboxgl.Marker({
+          color: "#5ed1c8",
+          draggable: true
+        })
+        .setLngLat(coords)
+        .addTo(map)
+
         map.addControl(new mapboxgl.GeolocateControl(), "bottom-right");
     
         const nav = new mapboxgl.NavigationControl();
@@ -73,7 +90,11 @@ export default function PostFormMap() {
             lat: map.getCenter().lat.toFixed(4),
             zoom: map.getZoom().toFixed(2),
           });
+
+          marker.setLngLat(map.getCenter())
+
         })
+
       }
     
       useEffect(() => {
@@ -88,13 +109,16 @@ export default function PostFormMap() {
         const timeout = setTimeout(() => {
           console.log("We arrived at our destination", coords)      
         }, 5000);
-    
+
         return () => clearTimeout(timeout);
       }, [coords]);
     
 
     return(
-    <div id="postFormMap" className="mapLayout"></div>
+      <div style={{display: "flex", justifyContent: "right"}}>
+            <div id="postFormMap" className={classes.mapLayout}></div>
+
+      </div>
 
     )
 }
