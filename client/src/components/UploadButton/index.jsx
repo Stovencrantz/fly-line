@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   fishImageContainer: {
-    width: "400px",
-    height: "600px",
+    width: "30%",
+    height: "60%",
     border: "1px solid #ddd",
     borderRadius: "4px",  
     padding: "5px", 
@@ -65,7 +65,7 @@ function getInputValue() {
       </label>
       <br/>
       <div >
-        <img className={classes.fishImageContainer} src={fileLink} alt="file from users device" />
+        <img className={classes.fishImageContainer} src={fileLink ? fileLink : "https://via.placeholder.com/150"} alt="file from users device" />
       </div>
     </div>
   );

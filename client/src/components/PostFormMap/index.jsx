@@ -3,22 +3,29 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { makeStyles } from "@material-ui/core/styles";
+import "./style.css"
 
 const useStyles = makeStyles((Theme) => ({
-    mapLayout: {
-        position: "absolute",
-        borderStyle: "solid",
-        borderRadius: "5px",
-        borderColor: "grey",
-        borderWidth: "2px",
-        width: "80%",
-        height: "42%",
-        // marginLeft: "auto",
-        // marginRight: "auto",
-        margin: "10px auto 0px auto",
-        left: "0",
-        right: "0",
-        textAlign: "center"
+    mapContainer: {
+      position: "absolute",
+      borderStyle: "solid",
+      borderRadius: "5px",
+      borderColor: "grey",
+      borderWidth: "2px",
+      width: "80%",
+      height: "42%",
+      // marginLeft: "auto",
+      // marginRight: "auto",
+      margin: "10px auto 0px auto",
+      left: "0",
+      right: "0",
+      textAlign: "center"
+    },
+    map: {
+      height: "100%",
+    },
+    mapboxglCtrlBottomLeft: {
+      zIndex: "0"
     }
 }))
 
@@ -115,10 +122,10 @@ export default function PostFormMap() {
     
 
     return(
-      <div style={{display: "flex", justifyContent: "right"}}>
-            <div id="postFormMap" className={classes.mapLayout}></div>
-
+      <div className={classes.mapContainer}>
+        <div id="postFormMap" className={classes.map}></div>
       </div>
+
 
     )
 }

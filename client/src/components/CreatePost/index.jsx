@@ -11,12 +11,15 @@ const useStyles = makeStyles((Theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "2%"
+    marginTop: "2%",
+    marginBottom: "200px",
+    height: "100vh"
   },
   form: {
     width: "100%",
     height: "100%",
     textAlign: "center",
+    marginBottom: "5%"
   },
 }));
 
@@ -70,6 +73,7 @@ export default function CreatePost() {
           <PostFormMap />
 
       </form>
+
     </div>
   );
 }

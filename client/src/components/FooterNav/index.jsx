@@ -24,7 +24,7 @@ export default function FooterNav() {
       flexGrow: 1,
       backgroundColor: "rgb(63 81 181)",
       width: "100vw",
-      position: "absolute",
+      position: "fixed",
       bottom: "0px",
       textAlign: "center",
     },
