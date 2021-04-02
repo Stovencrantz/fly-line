@@ -1,51 +1,76 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(1),
     },
   },
   input: {
-    display: 'none',
+    display: "none",
   },
   fishImageContainer: {
     width: "30%",
     height: "60%",
     border: "1px solid #ddd",
-    borderRadius: "4px",  
-    padding: "5px", 
-  }
+    borderRadius: "4px",
+    padding: "5px",
+  },
 }));
 
 export default function UploadButtons() {
   const classes = useStyles();
   const [fileLink, setFileLink] = useState("");
-//   const input = document.querySelector('.contained-button-file');
-//   input.addEventListener('change', console.log(input))
-function extractFilename(path) {
-    if (path.substr(0, 12) == "C:\\fakepath\\")
-      return path.substr(12); // modern browser
+  //   const input = document.querySelector('.contained-button-file');
+  //   input.addEventListener('change', console.log(input))
+  function extractFilename(path) {
+    if (path.substr(0, 12) == "C:\\fakepath\\") return path.substr(12); // modern browser
     var x;
-    x = path.lastIndexOf('/');
-    if (x >= 0) // Unix-based path
-      return path.substr(x+1);
-    x = path.lastIndexOf('\\');
-    if (x >= 0) // Windows-based path
-      return path.substr(x+1);
+    x = path.lastIndexOf("/");
+    if (x >= 0)
+      // Unix-based path
+      return path.substr(x + 1);
+    x = path.lastIndexOf("\\");
+    if (x >= 0)
+      // Windows-based path
+      return path.substr(x + 1);
     return path; // just the filename
   }
 
-function getInputValue() {
-    let input = document.querySelector('#contained-button-file').files;
-    console.log(input)
-    setFileLink(URL.createObjectURL(input[0]))
-}
-  
+  function getInputValue() {
+    let input = document.querySelector("#contained-button-file").files;
+    console.log(input);
+    console.log(Object.entries(input));
+    let entries = Object.entries(input);
+    let entriesArray = [];
+    entries.forEach((entry) => {
+      console.log("Entry: ", URL.createObjectURL(entry[1]));
+      entriesArray.push(URL.createObjectURL(entry[1]));
+    });
+    console.log("Entries Array: ", entriesArray);
+    setFileLink(entriesArray);
+
+    // input.forEach( file => console.log(file))
+    // setFileLink(URL.createObjectURL(input[0]))
+    // console.log(URL.createObjectURL(input[0]))
+    // setFileLink(URL.createObjectURL(input))
+    // console.log("Entries Array: ", entriesArray)
+  }
+  var items = [
+    {
+      name: "Random Name #1",
+      description: "Probobly the most random thing you have ever said!",
+    },
+    {
+      name: "Random Name #2",
+      description: "Hello World!",
+    },
+  ];
 
   return (
     <div className={classes.root}>
@@ -63,9 +88,30 @@ function getInputValue() {
           <PhotoCamera />
         </Button>
       </label>
-      <br/>
-      <div >
-        <img className={classes.fishImageContainer} src={fileLink ? fileLink : "https://via.placeholder.com/150"} alt="file from users device" />
+      <br />
+      <div>
+        {/* <img className={classes.fishImageContainer} src={fileLink ? fileLink : "https://via.placeholder.com/150"} alt="file from users device" /> */}
+        {fileLink ? (
+          <Carousel >
+            {fileLink.map((item, i) => {
+              return (
+                <img
+                  className={classes.fishImageContainer}
+                  src={item ? item : "https://via.placeholder.com/150"}
+                  alt="file from users device"
+                  key={i}
+                  item={item}
+                />
+              );
+            })}
+          </Carousel>
+        ) : (
+          <img
+            className={classes.fishImageContainer}
+            src={"https://via.placeholder.com/150"}
+            alt="file from users device"
+          />
+        )}
       </div>
     </div>
   );
