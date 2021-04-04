@@ -14,13 +14,17 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: "none",
   },
+  carouselStyle: {
+    margin: "0px auto 0px auto",
+    width: "30vw",
+  },
   fishImageContainer: {
-    width: "30%",
-    height: "60%",
+    width: "100%",
     border: "1px solid #ddd",
     borderRadius: "4px",
     padding: "5px",
   },
+
 }));
 
 export default function UploadButtons() {
@@ -44,33 +48,14 @@ export default function UploadButtons() {
 
   function getInputValue() {
     let input = document.querySelector("#contained-button-file").files;
-    console.log(input);
-    console.log(Object.entries(input));
     let entries = Object.entries(input);
     let entriesArray = [];
     entries.forEach((entry) => {
-      console.log("Entry: ", URL.createObjectURL(entry[1]));
       entriesArray.push(URL.createObjectURL(entry[1]));
     });
-    console.log("Entries Array: ", entriesArray);
     setFileLink(entriesArray);
 
-    // input.forEach( file => console.log(file))
-    // setFileLink(URL.createObjectURL(input[0]))
-    // console.log(URL.createObjectURL(input[0]))
-    // setFileLink(URL.createObjectURL(input))
-    // console.log("Entries Array: ", entriesArray)
   }
-  var items = [
-    {
-      name: "Random Name #1",
-      description: "Probobly the most random thing you have ever said!",
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-    },
-  ];
 
   return (
     <div className={classes.root}>
@@ -89,30 +74,31 @@ export default function UploadButtons() {
         </Button>
       </label>
       <br />
-      <div>
-        {/* <img className={classes.fishImageContainer} src={fileLink ? fileLink : "https://via.placeholder.com/150"} alt="file from users device" /> */}
-        {fileLink ? (
-          <Carousel >
-            {fileLink.map((item, i) => {
-              return (
-                <img
-                  className={classes.fishImageContainer}
-                  src={item ? item : "https://via.placeholder.com/150"}
-                  alt="file from users device"
-                  key={i}
-                  item={item}
-                />
-              );
-            })}
-          </Carousel>
-        ) : (
-          <img
-            className={classes.fishImageContainer}
-            src={"https://via.placeholder.com/150"}
-            alt="file from users device"
-          />
-        )}
-      </div>
+      {/* Conditional render statement, prior to the user selecting any images, render a placeholder image. Once the user selects images to upload, render those images into a carousel of defined dimensions */}
+      {fileLink ? (
+        <Carousel 
+        className={classes.carouselStyle}
+        indicators={true}
+        navButtonsAlwaysVisible={true}
+        >
+          {fileLink.map((item, i) => {
+            return (
+              <img
+                className={classes.fishImageContainer}
+                src={item}
+                alt="file from users device"
+                key={i}
+                item={item}
+              />
+            );
+          })}
+        </Carousel>
+      ) : (
+        <img
+          src={"https://via.placeholder.com/150"}
+          alt="file from users device"
+        />
+      )}
     </div>
   );
 }
