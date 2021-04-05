@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function UploadButtons() {
+export default function UploadButtons(props) {
   const classes = useStyles();
-  const [fileLink, setFileLink] = useState("");
+  const [imageFiles, setImageFiles] = useState("")
   //   const input = document.querySelector('.contained-button-file');
   //   input.addEventListener('change', console.log(input))
   function extractFilename(path) {
@@ -53,7 +53,9 @@ export default function UploadButtons() {
     entries.forEach((entry) => {
       entriesArray.push(URL.createObjectURL(entry[1]));
     });
-    setFileLink(entriesArray);
+    setImageFiles(entriesArray);
+    // set our prop passed in from parent component CreatePost to the value of our entries array. This will pass the image links from our UploadButton component back up to the parent.
+    props.setImages(entriesArray);
 
   }
 
@@ -75,13 +77,13 @@ export default function UploadButtons() {
       </label>
       <br />
       {/* Conditional render statement, prior to the user selecting any images, render a placeholder image. Once the user selects images to upload, render those images into a carousel of defined dimensions */}
-      {fileLink ? (
+      {imageFiles ? (
         <Carousel 
         className={classes.carouselStyle}
         indicators={true}
         navButtonsAlwaysVisible={true}
         >
-          {fileLink.map((item, i) => {
+          {imageFiles.map((item, i) => {
             return (
               <img
                 className={classes.fishImageContainer}

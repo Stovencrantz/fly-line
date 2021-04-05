@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import PostFormMap from "../PostFormMap";
@@ -25,6 +25,12 @@ const useStyles = makeStyles((Theme) => ({
 
 export default function CreatePost() {
   const classes = useStyles();
+  const [images, setImages] = useState("");
+
+  useEffect(() => {
+    console.log("image file props from uploadButton: ", images)
+
+  }, [images])
 
   return (
     <div className={classes.formLayout}>
@@ -43,7 +49,7 @@ export default function CreatePost() {
         <div>
           {" "}
           {/* Select photos of fish */}
-            <UploadButton />
+            <UploadButton setImages={ files => setImages(files)} />
         </div>
         <div>
           {" "}
