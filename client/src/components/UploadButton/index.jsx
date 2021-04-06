@@ -15,8 +15,10 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   carouselStyle: {
-    margin: "0px auto 0px auto",
-    width: "30vw",
+    margin: "10px auto 0px auto",
+    // width: "40vw",
+    width: "95%",
+    maxWidth: "600px"
   },
   fishImageContainer: {
     width: "100%",
@@ -81,7 +83,23 @@ export default function UploadButtons(props) {
         <Carousel 
         className={classes.carouselStyle}
         indicators={true}
-        navButtonsAlwaysVisible={true}
+        navButtonsAlwaysInvisible={true}
+        autoPlay={false}
+        navButtonsProps={{
+          style: {
+            backgroundColor: 'rgba(63, 81, 181, 0.5)'
+          }
+        }}
+        indicatorIconButtonProps={{
+          style: {
+            color: 'rgba(63, 81, 181, 0.5)'
+          }
+        }}
+        activeIndicatorIconButtonProps={{
+          style: {
+            color: 'rgba(63, 81, 181, 1)'
+          }
+        }}
         >
           {imageFiles.map((item, i) => {
             return (

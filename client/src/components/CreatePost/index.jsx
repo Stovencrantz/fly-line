@@ -15,8 +15,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "3%",
-    marginBottom: "200px",
-    height: "100vh",
+    marginBottom: "55vh",
   },
   form: {
     width: "100%",
@@ -32,31 +31,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreatePost() {
   const classes = useStyles();
-  const [images, setImages] = useState("");
   const [fishSpecies, setFishSpecies] = useState("");
+  const [images, setImages] = useState("");
+  const [description, setDescription] = useState("")
   const [fishWeight, setFishWeight] = useState("");
   const [fishWeightUnit, setFishWeightUnit] = useState("");
   const [fishLength, setFishLength] = useState("");
   const [fishLengthUnit, setFishLengthUnit] = useState("");
-  const [state, setState] = useState({
-    age: "",
-    name: "hai",
-  });
+
 
   useEffect(() => {
-    console.log("image file props from uploadButton: ", images);
     console.log("Fish species: ", fishSpecies);
+    console.log("image file props from uploadButton: ", images);
+    console.log("Description: ", description);
     console.log("Fish weight: ", fishWeight, " ", fishWeightUnit);
     console.log("Fish length: ", fishLength, " ", fishLengthUnit);
-  }, [images, fishSpecies, fishWeight, fishLength, fishWeightUnit, fishLengthUnit]);
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
+  }, [fishSpecies, images, description, fishWeight, fishLength, fishWeightUnit, fishLengthUnit]);
 
   return (
     <div className={classes.formLayout}>
@@ -64,6 +54,7 @@ export default function CreatePost() {
         <div>
           {/* Add fish species */}
           <TextField
+            classname={classes.formControl}
             variant="outlined"
             margin="normal"
             required
@@ -78,6 +69,21 @@ export default function CreatePost() {
           {" "}
           {/* Select photos of fish */}
           <UploadButton setImages={(files) => setImages(files)} />
+        </div>
+        <div>
+          {/* Add Description */}
+          <TextField
+            style={{maxWidth: "400px", width: "95%"}}
+            variant="outlined"
+            margin="normal"
+            multiline
+            rows={5}
+            required
+            label="Description"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <div>
           {" "}
