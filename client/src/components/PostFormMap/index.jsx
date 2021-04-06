@@ -14,8 +14,6 @@ const useStyles = makeStyles((Theme) => ({
       borderWidth: "2px",
       width: "80%",
       height: "42%",
-      // marginLeft: "auto",
-      // marginRight: "auto",
       margin: "10px auto 0px auto",
       left: "0",
       right: "0",
