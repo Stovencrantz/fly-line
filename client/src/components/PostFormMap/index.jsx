@@ -27,13 +27,13 @@ const useStyles = makeStyles((Theme) => ({
     }
 }))
 
-export default function PostFormMap() {
+export default function PostFormMap(props) {
 
     const classes = useStyles();
 
     mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
     const [coords, setCoords] = useState({ lng: "", lat: "", zoom: "" });
-
+    
     function successLocation(position) {
         setCoords({
           lng: position.coords.longitude,
@@ -63,11 +63,24 @@ export default function PostFormMap() {
         });
 
         var marker = new mapboxgl.Marker({
-          color: "#5ed1c8",
-          draggable: true
+          color: "#3CB371",
+          draggable: true,
+          
         })
         .setLngLat(coords)
         .addTo(map)
+
+        function markerCoordsAdjustment() {
+
+          setCoords({
+            lng: marker.getLngLat().lng.toFixed(4),
+            lat: marker.getLngLat().lat.toFixed(4),
+            zoom: map.getZoom().toFixed(2),
+          })
+        }
+
+        marker.on('dragend', (e) => markerCoordsAdjustment())
+        
 
         map.addControl(new mapboxgl.GeolocateControl(), "bottom-right");
     
@@ -114,10 +127,10 @@ export default function PostFormMap() {
         const timeout = setTimeout(() => {
           console.log("We arrived at our destination", coords)      
         }, 5000);
+        props.setCoords(coords);
 
         return () => clearTimeout(timeout);
       }, [coords]);
-    
 
     return(
       <div className={classes.mapContainer}>

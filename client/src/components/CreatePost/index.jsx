@@ -8,6 +8,7 @@ import UploadButton from "../UploadButton";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   formLayout: {
@@ -38,6 +39,7 @@ export default function CreatePost() {
   const [fishWeightUnit, setFishWeightUnit] = useState("");
   const [fishLength, setFishLength] = useState("");
   const [fishLengthUnit, setFishLengthUnit] = useState("");
+  const [coords, setCoords] = useState("");
 
 
   useEffect(() => {
@@ -46,7 +48,8 @@ export default function CreatePost() {
     console.log("Description: ", description);
     console.log("Fish weight: ", fishWeight, " ", fishWeightUnit);
     console.log("Fish length: ", fishLength, " ", fishLengthUnit);
-  }, [fishSpecies, images, description, fishWeight, fishLength, fishWeightUnit, fishLengthUnit]);
+    console.log("FIsh catch location coords: ", coords);
+  }, [fishSpecies, images, description, fishWeight, fishLength, fishWeightUnit, fishLengthUnit, coords]);
 
   return (
     <div className={classes.formLayout}>
@@ -140,7 +143,8 @@ export default function CreatePost() {
         </div>
 
         {/* Location on map */}
-        <PostFormMap />
+        <Typography variant="subtitle2">Scroll around the map and hover or drag the marker over the location you caught your catch!</Typography>
+        <PostFormMap setCoords={coordinates => setCoords(coordinates)}/>
       </form>
     </div>
   );
